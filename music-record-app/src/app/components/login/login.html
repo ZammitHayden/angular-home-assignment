@@ -1,0 +1,54 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Music Record Store Login</h2>
+    
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="email" 
+          required
+          placeholder="Enter your email"
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          required
+          placeholder="Enter your password"
+          class="form-control"
+        >
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <div class="login-info">
+      <p><strong>Test Users:</strong></p>
+      <ul>
+        <li><strong>Sales Clerk:</strong> clerk@recordshop.com / password</li>
+        <li><strong>Store Manager:</strong> manager@recordshop.com / password</li>
+        <li><strong>System Admin:</strong> admin@recordshop.com / password</li>
+      </ul>
+    </div>
+  </div>
+</div>

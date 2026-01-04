@@ -1,0 +1,86 @@
+<div class="records-container">
+  <div class="page-header">
+    <h2>Record Inventory</h2>
+    <p>Manage your music record collection</p>
+  </div>
+  
+    <div class="export-section" *ngIf="records.length > 0">
+      <h3>Export Records</h3>
+      <div class="export-buttons">
+        <button 
+          (click)="exportToExcel()" 
+          class="btn btn-export btn-excel">
+          <i class="export-icon"></i> Export to Excel
+        </button>
+        
+        <button 
+          (click)="exportToPDF()" 
+          class="btn btn-export btn-pdf">
+          <i class="export-icon"></i> Export to PDF
+        </button>
+        
+        <button 
+          (click)="exportToBoth()" 
+          class="btn btn-export btn-both">
+          <i class="export-icon"></i> Export Both
+        </button>
+      </div>
+
+      <p class="export-note">
+        <small>PDF export includes genre-based color coding (same genre = same color)</small>
+      </p>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage">
+    <div class="table-responsive">
+      <table class="records-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Format</th>
+            <th>Genre</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of records">
+            <td>{{ record.id }}</td>
+            <td>{{ getCustomerDisplay(record) }}</td>
+            <td>{{ record.format }}</td>
+            <td>{{ record.genre }}</td>
+            <td class="actions">
+              <button 
+                [routerLink]="['/view', record.id]"
+                class="btn btn-view">
+                View
+              </button>
+              
+              <button 
+                [routerLink]="['/edit', record.id]"
+                class="btn btn-update"
+                [disabled]="!canUpdate()">
+                Update
+              </button>
+              
+              <button 
+                (click)="deleteRecord(record.id)"
+                class="btn btn-delete"
+                [disabled]="!canDelete()">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="records.length === 0" class="empty-state">
+      <p>No records found. Add your first record!</p>
+    </div>
+  </div>

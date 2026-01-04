@@ -1,0 +1,47 @@
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <h1>Music Record Store</h1>
+    </div>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li>
+          <a *ngIf="!(currentUser$ | async); else logoutBtn" 
+             routerLink="/login" 
+             routerLinkActive="active">
+            Login
+          </a>
+          <ng-template #logoutBtn>
+            <a (click)="logout()" class="logout-btn">Logout</a>
+          </ng-template>
+        </li>
+        
+        <li *ngIf="currentUser$ | async">
+          <a routerLink="/records" routerLinkActive="active">
+            Records
+          </a>
+        </li>
+        
+        <li *ngIf="(currentUser$ | async) && canAddRecords()">
+          <a routerLink="/add" routerLinkActive="active">
+            Add Records
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="user-info" *ngIf="currentUser$ | async as user">
+      <div class="user-details">
+        <span class="user-name">{{ user.name }}</span>
+        <span class="user-role">({{ getUserRoleDisplay() }})</span>
+      </div>
+      
+      <div class="permissions">
+        <span class="permission-badge" *ngIf="canAddRecords()">Add</span>
+        <span class="permission-badge" *ngIf="canUpdateRecords()">Update</span>
+        <span class="permission-badge" *ngIf="canDeleteRecords()">Delete</span>
+      </div>
+    </div>
+  </div>
+</header>

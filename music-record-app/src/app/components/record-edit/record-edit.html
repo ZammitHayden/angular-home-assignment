@@ -1,0 +1,215 @@
+<div class="form-container">
+  <div class="form-header">
+    <h2>Edit Record</h2>
+    <p>Update an existing music record and customer purchase information</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading record data...</p>
+  </div>
+
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-error">
+    <h3>Error</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="loadRecordData(recordId)" class="btn btn-retry">
+      Retry
+    </button>
+  </div>
+
+  <form *ngIf="!isLoading && !errorMessage && formats.length > 0 && genres.length > 0"
+        [formGroup]="recordForm"
+        (ngSubmit)="onSubmit()"
+        class="record-form">
+    
+    <div class="form-section">
+      <h3>Record Details</h3>
+      
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="title">Record Title</label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title"
+            [class.invalid]="isFieldInvalid('title')">
+          <div *ngIf="isFieldInvalid('title')" class="error-message">
+            {{ getFieldError('title') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="artist">Artist</label>
+          <input 
+            type="text" 
+            id="artist" 
+            formControlName="artist"
+            [class.invalid]="isFieldInvalid('artist')">
+          <div *ngIf="isFieldInvalid('artist')" class="error-message">
+            {{ getFieldError('artist') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="format">Format</label>
+          <select 
+            id="format" 
+            formControlName="format"
+            [class.invalid]="isFieldInvalid('format')">
+            <option value="">Select format</option>
+            <option *ngFor="let format of formats" [value]="format">
+              {{ format }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('format')" class="error-message">
+            {{ getFieldError('format') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <select 
+            id="genre" 
+            formControlName="genre"
+            [class.invalid]="isFieldInvalid('genre')">
+            <option value="">Select genre</option>
+            <option *ngFor="let genre of genres" [value]="genre">
+              {{ genre }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('genre')" class="error-message">
+            {{ getFieldError('genre') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="releaseYear">Release Year</label>
+          <input 
+            type="number" 
+            id="releaseYear" 
+            formControlName="releaseYear"
+            [class.invalid]="isFieldInvalid('releaseYear')"
+            [min]="1900"
+            [max]="getCurrentYear()">
+          <div *ngIf="isFieldInvalid('releaseYear')" class="error-message">
+            {{ getFieldError('releaseYear') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price (€)</label>
+          <input 
+            type="number" 
+            id="price" 
+            formControlName="price"
+            [class.invalid]="isFieldInvalid('price')"
+            step="0.01"
+            min="0">
+          <div *ngIf="isFieldInvalid('price')" class="error-message">
+            {{ getFieldError('price') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="stockQty">Stock Quantity</label>
+          <input 
+            type="number" 
+            id="stockQty" 
+            formControlName="stockQty"
+            [class.invalid]="isFieldInvalid('stockQty')"
+            min="0">
+          <div *ngIf="isFieldInvalid('stockQty')" class="error-message">
+            {{ getFieldError('stockQty') }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Customer Purchase Details</h3>
+      
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="customerId">Customer ID</label>
+          <input 
+            type="text" 
+            id="customerId" 
+            formControlName="customerId"
+            [class.invalid]="isFieldInvalid('customerId')">
+          <div *ngIf="isFieldInvalid('customerId')" class="error-message">
+            {{ getFieldError('customerId') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customerFirstName">First Name</label>
+          <input 
+            type="text" 
+            id="customerFirstName" 
+            formControlName="customerFirstName"
+            [class.invalid]="isFieldInvalid('customerFirstName')">
+          <div *ngIf="isFieldInvalid('customerFirstName')" class="error-message">
+            {{ getFieldError('customerFirstName') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customerLastName">Last Name</label>
+          <input 
+            type="text" 
+            id="customerLastName" 
+            formControlName="customerLastName"
+            [class.invalid]="isFieldInvalid('customerLastName')">
+          <div *ngIf="isFieldInvalid('customerLastName')" class="error-message">
+            {{ getFieldError('customerLastName') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customerContact">Contact Number</label>
+          <input 
+            type="text" 
+            id="customerContact" 
+            formControlName="customerContact"
+            [class.invalid]="isFieldInvalid('customerContact')">
+          <div *ngIf="isFieldInvalid('customerContact')" class="error-message">
+            {{ getFieldError('customerContact') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customerEmail">Email</label>
+          <input 
+            type="email" 
+            id="customerEmail" 
+            formControlName="customerEmail"
+            [class.invalid]="isFieldInvalid('customerEmail')">
+          <div *ngIf="isFieldInvalid('customerEmail')" class="error-message">
+            {{ getFieldError('customerEmail') }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn btn-secondary"
+        (click)="onCancel()">
+        Cancel
+      </button>
+      
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="recordForm.invalid || isSubmitting">
+        {{ isSubmitting ? 'Updating...' : 'Update Record' }}
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="!isLoading && !errorMessage && (formats.length === 0 || genres.length === 0)"
+       class="alert alert-warning">
+    <h3>Loading Form Data</h3>
+    <p>Please wait while we load the form options...</p>
+  </div>
+</div>

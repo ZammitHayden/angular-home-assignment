@@ -1,0 +1,81 @@
+<div *ngIf="isLoading">
+  <p>Loading record details...</p>
+</div>
+
+<div *ngIf="errorMessage && !isLoading">
+  <div class="alert alert-error">
+    {{ errorMessage }}
+  </div>
+  <button [routerLink]="['/records']" class="btn btn-back">Back to List</button>
+</div>
+
+  <div *ngIf="!isLoading && record">
+  <div class="view-header">
+    <h2>Record Details</h2>
+    <button [routerLink]="['/records']" class="btn btn-back">Back to List</button>
+  </div>
+
+  <div class="record-details">
+    <div class="detail-section">
+      <h3>Record Information</h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">ID:</span>
+          <span class="detail-value">{{ record.id }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Title:</span>
+          <span class="detail-value">{{ record.title | lowercase }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Artist:</span>
+          <span class="detail-value">{{ record.artist }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Format:</span>
+          <span class="detail-value">{{ record.format }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Genre:</span>
+          <span class="detail-value">{{ record.genre }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Release Year:</span>
+          <span class="detail-value">{{ record.releaseYear }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Price:</span>
+          <span class="detail-value">{{ record.price | currency:'EUR' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Stock:</span>
+          <span class="detail-value">{{ record.stockQty }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Customer Information</h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">Customer ID:</span>
+          <span class="detail-value">{{ record.customerId || 'N/A' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Name:</span>
+          <span class="detail-value">
+            {{ record.customerFirstName }} {{ record.customerLastName }}
+          </span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Contact:</span>
+          <span class="detail-value">{{ record.customerContact || 'N/A' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Email:</span>
+          <span class="detail-value">{{ record.customerEmail || 'N/A' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
