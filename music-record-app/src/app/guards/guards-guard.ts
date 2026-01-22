@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { AuthService } from '../services/auth';
 
-
+// Guard to check if user is logged in
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
 
@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
   }
 }
 
-
+// Guard to prevent logged-in users from accessing login page
 @Injectable({ providedIn: 'root' })
 export class LoginGuard implements CanActivate {
 
@@ -43,7 +43,7 @@ export class LoginGuard implements CanActivate {
   }
 }
 
-
+// Guard to check if user has required role
 @Injectable({ providedIn: 'root' })
 export class RoleGuard implements CanActivate {
 

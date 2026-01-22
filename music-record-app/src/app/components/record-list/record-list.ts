@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
@@ -17,6 +17,7 @@ export class RecordListComponent implements OnInit {
   private authService = inject(AuthService);
   private exportService = inject(ExportService);
   private router = inject(Router);
+  private cdRef = inject(ChangeDetectorRef);
   
   records: Record[] = [];
   isLoading: boolean = true;
@@ -36,14 +37,19 @@ export class RecordListComponent implements OnInit {
 
   loadRecords(): void {
     this.isLoading = true;
+    this.errorMessage = '';
+    this.cdRef.detectChanges(); 
+    
     this.recordService.getRecords().subscribe({
       next: (data) => {
         this.records = [...data];
         this.isLoading = false;
+        this.cdRef.detectChanges(); 
       },
       error: (error) => {
         this.errorMessage = 'Failed to load records';
         this.isLoading = false;
+        this.cdRef.detectChanges(); 
         console.error('Error loading records:', error);
       }
     });
@@ -57,6 +63,7 @@ export class RecordListComponent implements OnInit {
     this.recordService.deleteRecord(id).subscribe({
       next: () => {
         this.records = this.records.filter(record => record.id !== id);
+        this.cdRef.detectChanges(); 
       },
       error: (error) => {
         alert('Failed to delete record');
